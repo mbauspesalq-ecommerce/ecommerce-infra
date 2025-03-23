@@ -24,7 +24,32 @@ Os microsserviços se comunicam entre si para garantir um fluxo coeso de compra 
 domínio de cada aplicação, e com APIs bem definidas de comunicação:
 
 1. O **ecommerce-pagamentos** recebe uma solicitação de pagamento contendo `idCliente`, `idCarrinho`, `produtos`
-   e `pagamento`. Ele então calcula o valor total do carrinho.
+   e `pagamento`. Ele então calcula o valor total do carrinho. Abaixo está o payload de entrada do endpoint
+   POST http://localhost:8001/api/pagamentos.
+
+      ```json
+      {
+        "idCliente": "123456",
+        "idCarrinho": "654321",
+        "produtos": [
+          {
+            "id": 1,
+            "precoUnitario": 100.00,
+            "quantidadeRequerida": 1
+          },
+          {
+            "id": 2,
+            "precoUnitario": 200.00,
+            "quantidadeRequerida": 3
+          }
+        ],
+        "dadosPagamento": {
+          "tipo": 1,
+          "parcelas": 2,
+          "simbolo": "VISA"
+        }
+      }
+      ```
 2. O serviço consulta o **ecommerce-estoque** para verificar e reservar a quantidade necessária dos produtos.
 3. Se os produtos estiverem disponíveis, o estoque é reduzido temporariamente e a solicitação de pagamento segue para
    uma **API de pagamento parceira**.
@@ -33,6 +58,10 @@ domínio de cada aplicação, e com APIs bem definidas de comunicação:
 5. Se o pagamento for negado:
     - O estoque dos produtos reservados é devolvido.
     - O estado da transação é salvo no **DynamoDB** com `estado = "NEGADO"`.
+
+Obs.: para que o pagamento seja NEGADO pela API parceira (wiremock), o atributo `dadosPagamento::tipo` deve ser
+diferente de 1. Assim conseguimos validar se o microsserviço de pagamentos devolve os produtos para o microsserviço de
+estoque, disponibilizando-os para outros clientes comprar.
 
 ## Tecnologias Utilizadas
 
