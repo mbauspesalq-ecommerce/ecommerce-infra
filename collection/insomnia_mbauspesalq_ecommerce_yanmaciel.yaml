@@ -1,0 +1,347 @@
+type: collection.insomnia.rest/5.0
+name: ecommerce
+meta:
+  id: wrk_703d633037504327a7f6a0ec81017284
+  created: 1742682363874
+  modified: 1742682363874
+collection:
+  - name: estoque
+    meta:
+      id: fld_12a451a1505d4086b3ff006b6748bbe4
+      created: 1742699700449
+      modified: 1742699700449
+      sortKey: -1742699700449
+    children:
+      - url: http://localhost:8000/actuator/health
+        name: /actuator/health
+        meta:
+          id: req_63008b48934348a6880090cf4aab8fa9
+          created: 1742682376752
+          modified: 1742699715977
+          isPrivate: false
+          sortKey: -1742699708135
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/8.6.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8000/api/produtos/1
+        name: /api/produtos/{idProduto}
+        meta:
+          id: req_99a7f3b9da0e4fb99aa227aaa99671f7
+          created: 1742686671920
+          modified: 1742755953646
+          isPrivate: false
+          sortKey: -1742699708535
+        method: GET
+        body:
+          mimeType: application/json
+        headers:
+          - name: Content-Type
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8000/api/produtos/categorias/eletronicos
+        name: /api/produtos/categorias/{nomeCategoria}
+        meta:
+          id: req_1985bdaf04724447a8384fc6bce1d463
+          created: 1742686902653
+          modified: 1742764064726
+          isPrivate: false
+          sortKey: -1742699708235
+        method: GET
+        body:
+          mimeType: application/json
+        headers:
+          - name: Content-Type
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8000/api/produtos
+        name: /api/produtos
+        meta:
+          id: req_d9b8dde618af4b2d953166b3b3e96706
+          created: 1742693571199
+          modified: 1742699725729
+          isPrivate: false
+          sortKey: -1742699708735
+        method: GET
+        body:
+          mimeType: application/json
+        headers:
+          - name: Content-Type
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8000/api/produtos/6
+        name: /api/produtos/{idProduto}
+        meta:
+          id: req_5b1da6542f224883a7b0de3ea2aa9ee5
+          created: 1742699080276
+          modified: 1742767424760
+          isPrivate: false
+          sortKey: -1742699708335
+        method: DELETE
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8000/api/produtos/6
+        name: /api/produtos/{idProduto}
+        meta:
+          id: req_6dfbe1a9c4ac416d92db4e5dcda04171
+          created: 1742699202483
+          modified: 1742767413191
+          isPrivate: false
+          sortKey: -1742699708435
+        method: PUT
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"nomeProduto": "edhedth",
+            	"categoria": "eletronicos",
+            	"quantidade": 15,
+            	"preco": 1999.99
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8000/api/produtos
+        name: /api/produtos
+        meta:
+          id: req_9613c4f5a52d4b9ca6fe0fbc361856a5
+          created: 1742699364690
+          modified: 1742753967102
+          isPrivate: false
+          sortKey: -1742699708635
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"nomeProduto": "Smartwatch Samsung",
+            	"categoria": "eletronicos",
+            	"quantidade": 20,
+            	"preco": 499.99
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8000/api/produtos/subtrai-estoque
+        name: /api/produtos/subtrai-estoque
+        meta:
+          id: req_8d35926ec5d34705b44cb4229b9efcc5
+          created: 1742750535516
+          modified: 1742751079733
+          isPrivate: false
+          sortKey: -1742699708585
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            [
+            	{
+            		"idProduto": 4,
+            		"quantidadeRequerida": 2
+            	},
+            	{
+            		"idProduto": 3,
+            		"quantidadeRequerida": 5
+            	}
+            ]
+        headers:
+          - name: Content-Type
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8000/api/produtos/devolve-estoque
+        name: /api/produtos/devolve-estoque
+        meta:
+          id: req_a362bc9fe22a4740bedf0f22fd13dee5
+          created: 1742750558857
+          modified: 1742751036708
+          isPrivate: false
+          sortKey: -1742699708560
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            [
+            	{
+            		"idProduto": 4,
+            		"quantidadeRequerida": 2
+            	},
+            	{
+            		"idProduto": 5,
+            		"quantidadeRequerida": 2
+            	}
+            ]
+        headers:
+          - name: Content-Type
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: pagamentos
+    meta:
+      id: fld_5c6416a3297b4d4ebb1dbb140e85e2b3
+      created: 1742699734291
+      modified: 1742703800477
+      sortKey: -1742699700549
+    children:
+      - url: http://localhost:8001/actuator/health
+        name: /actuator/health
+        meta:
+          id: req_07555d62e1bf415e99aa6e0ec02c4e58
+          created: 1742703804561
+          modified: 1742703820325
+          isPrivate: false
+          sortKey: -1742703810602
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/8.6.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8001/api/pagamentos
+        name: /api/pagamentos
+        meta:
+          id: req_94218df5110647cc88840b0e783b0568
+          created: 1742740181597
+          modified: 1742767512282
+          isPrivate: false
+          sortKey: -1742740181597
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"idCliente": "nathalia",
+            	"idCarrinho": "1",
+            	"produtos": [
+            		{
+            			"id": 1,
+            			"precoUnitario": 100.00,
+            			"quantidadeRequerida": 5
+            		},
+            		{
+            			"id": 2,
+            			"precoUnitario": 100.00,
+            			"quantidadeRequerida": 5
+            		}
+            	],
+            	"dadosPagamento": {
+            		"tipo": 1,
+            		"parcelas": 3,
+            		"simbolo": "VISA"
+            	}
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.0.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8001/api/pagamentos/nathalia
+        name: /api/pagamentos/{idCliente}
+        meta:
+          id: req_23e134e377ea4b839be369bf49a2156a
+          created: 1742742760015
+          modified: 1742764034556
+          isPrivate: false
+          sortKey: -1742721996099.5
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.0.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_7f5527fcf8654c8d775af3963c5759bfd083d92c
+    created: 1742682363879
+    modified: 1742682363879
+environments:
+  name: Base Environment
+  meta:
+    id: env_7f5527fcf8654c8d775af3963c5759bfd083d92c
+    created: 1742682363877
+    modified: 1742682363877
+    isPrivate: false

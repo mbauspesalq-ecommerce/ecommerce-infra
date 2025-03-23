@@ -1,0 +1,23 @@
+{
+  "priority": 2,
+  "request": {
+    "method": "POST",
+    "url": "/parceiro/autentica-pagamento",
+    "bodyPatterns": [
+      {
+        "matchesJsonPath": "$.tipo",
+        "notEqualTo": 1
+      }
+    ]
+  },
+  "response": {
+    "status": 422,
+    "jsonBody": {
+      "mensagem": "NEGADO",
+      "erro": "Tipo de pagamento indisponível."
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}

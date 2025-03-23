@@ -1,0 +1,93 @@
+version: "3.8"
+services:
+  localstack:
+    image: localstack/localstack:3.0.2
+    ports:
+      - "4566:4566"
+    environment:
+      - SERVICES=dynamodb
+      - DEFAULT_REGION=us-east-1
+      - EDGE_PORT=4566
+      - AWS_ACCESS_KEY_ID=test
+      - AWS_SECRET_ACCESS_KEY=test
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    networks:
+      - ecommerce_network
+
+  aws-cli:
+    image: amazon/aws-cli
+    depends_on:
+      - localstack
+    entrypoint: >
+      /bin/sh -c "
+        until aws --endpoint-url=http://localstack:4566 dynamodb list-tables; do
+          echo 'Aguardando o LocalStack...';
+          sleep 5;
+        done;
+        aws --endpoint-url=http://localstack:4566 dynamodb create-table --region 'us-east-1' --table-name 'pagamento_transacao' --attribute-definitions 'AttributeName=idCliente,AttributeType=S' 'AttributeName=idCarrinho,AttributeType=S' --key-schema 'AttributeName=idCliente,KeyType=HASH' 'AttributeName=idCarrinho,KeyType=RANGE' --provisioned-throughput 'ReadCapacityUnits=5,WriteCapacityUnits=5';
+        echo 'Tabela criada com sucesso!'
+      "
+    environment:
+      - AWS_ACCESS_KEY_ID=test
+      - AWS_SECRET_ACCESS_KEY=test
+      - AWS_DEFAULT_REGION=us-east-1
+    networks:
+      - ecommerce_network
+
+  wiremock:
+    image: holomekc/wiremock-gui:latest
+    container_name: wiremock-gui
+    ports:
+      - "8080:8080"  # Interface Web GUI (Admin)
+      - "8089:8089"  # API do WireMock
+    volumes:
+      - ./wiremock:/home/wiremock  # Mappings armazenados na pasta local
+    environment:
+      - WIREMOCK_OPTIONS=--verbose --global-response-templating
+    networks:
+      - ecommerce_network
+
+  postgres:
+    image: postgres:15
+    container_name: estoque_db
+    restart: always
+    environment:
+      POSTGRES_USER: estoque
+      POSTGRES_PASSWORD: estoque
+      POSTGRES_DB: estoque_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./flyway/sql:/docker-entrypoint-initdb.d
+    networks:
+      - ecommerce_network
+
+  ecommerce-estoque:
+    image: yanmaciel/mbauspesalq-ecommerce-estoque:latest
+    container_name: ecommerce-estoque
+    depends_on:
+      - postgres
+    ports:
+      - "8000:8000"
+    networks:
+      - ecommerce_network
+
+  ecommerce-pagamentos:
+    image: yanmaciel/mbauspesalq-ecommerce-pagamentos:latest
+    container_name: ecommerce-pagamentos
+    ports:
+      - "8001:8001"
+    depends_on:
+      - localstack
+      - aws-cli
+    networks:
+      - ecommerce_network
+
+volumes:
+  postgres_data:
+
+networks:
+  ecommerce_network:
+    driver: bridge
